@@ -46,7 +46,7 @@ const Login = () => {
 
         <div className="signup_wrapper">
           <span>
-            Don't have account <Link to="/register">Sign up</Link>
+            Don't have account ? <Link to="/register">Sign up</Link>
           </span>
         </div>
         <div className="get_the_app">
@@ -54,14 +54,16 @@ const Login = () => {
           <div className="get_the_app_wrapper">
             <a href="#">
               <img
-                src="https://i.ibb.co/6n1x5f0/insta-app-store.png"
-                alt="app-store"
+                src="https://i.ibb.co/DfG3nPr2/apple-png.png"
+                alt="apple-png"
+                border="0"
               />
             </a>
-            <a href="#">
+            <a href="https://ibb.co/HLWfKGVS">
               <img
-                src="https://i.ibb.co/7y3b2zH/insta-google-play.png"
-                alt="google-play"
+                src="https://i.ibb.co/mrLVRhGj/googleplay-png.png"
+                alt="googleplay-png.png"
+                border="0"
               />
             </a>
           </div>
