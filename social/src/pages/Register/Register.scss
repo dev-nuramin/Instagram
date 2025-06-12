@@ -2,7 +2,7 @@
   width: 100%;
   height: 100vh;
   display: flex;
-  justify-content: center;
+
   flex-direction: column;
   align-items: center;
   background-color: #e9e9e9;
@@ -17,12 +17,13 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px 8px 0px 0px;
     padding: 30px 0px 20px 0px;
+    margin-top: 25px;
     .register_logo_link {
       width: 100%;
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
 
       img {
         width: 175px;
@@ -44,8 +45,8 @@
       margin-bottom: 15px;
       width: 80%;
       padding: 8px 0px 8px 0px;
-        background-color: #1780f1;
-        color: white;
+      background-color: #1780f1;
+      color: white;
       border: none;
       border-radius: 4px;
       cursor: pointer;
@@ -69,7 +70,7 @@
       justify-content: center;
 
       input {
-        margin-bottom: 15px;
+        margin-bottom: 8px;
         padding: 10px;
         border-radius: 4px;
         height: 40px;
@@ -95,28 +96,29 @@
         }
       }
     }
-    .terms_condition_text{
-        width: 98%;
-        margin-top: 10px;
-        font-size: 12px;
-        font-weight: 400;
-        color: #484646;
-        text-align: center;
-    
-        .text_first, .text_sec {
-            margin-bottom: 5px;
-            a {
-            color: #1780f1;
-            text-decoration: none;
-            font-weight: 400;
-            }
+    .terms_condition_text {
+      width: 98%;
+      margin-top: 10px;
+      font-size: 12px;
+      font-weight: 400;
+      color: #484646;
+      text-align: center;
+
+      .text_first,
+      .text_sec {
+        margin-bottom: -4px;
+        a {
+          color: #1780f1;
+          text-decoration: none;
+          font-weight: 400;
         }
+      }
     }
     .divider {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-top: 5px;
+      margin-top: -6px;
       position: relative;
       width: 100%;
       p {
@@ -142,14 +144,14 @@
       }
     }
 
-    .forgot_password {
-      a {
-        font-size: 14px;
-        color: #484646;
-        text-decoration: none;
-        font-weight: 400;
-      }
-    }
+    // .forgot_password {
+    //   a {
+    //     font-size: 14px;
+    //     color: #484646;
+    //     text-decoration: none;
+    //     font-weight: 400;
+    //   }
+    // }
   }
   .signup_wrapper {
     width: 340px;

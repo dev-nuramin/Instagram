@@ -2,6 +2,7 @@ import React from "react";
 import { BiLogoFacebookSquare } from "react-icons/bi";
 import "./Login.scss"; // Importing styles specific to the Login component
 import { Link } from "react-router-dom";
+import AuthFooter from "../../Components/AuthFooter/AuthFooter";
 // This component renders a login form with fields for username and password, and a button to log in.
 const Login = () => {
   return (
@@ -68,6 +69,7 @@ const Login = () => {
             </a>
           </div>
         </div>
+        <AuthFooter />
       </div>
     </>
   );

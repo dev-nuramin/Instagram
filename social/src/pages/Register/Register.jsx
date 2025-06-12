@@ -2,6 +2,8 @@ import React from "react";
 import { BiLogoFacebookSquare } from "react-icons/bi";
 import "./Register.scss"; // Importing styles specific to the Register component
 import { Link } from "react-router-dom";
+import AuthFooter from "../../Components/AuthFooter/AuthFooter";
+
 // This component renders a registration form with fields for username and password, and a button to register.
 const Register = () => {
   return (
@@ -85,9 +87,11 @@ const Register = () => {
           </a>
         </div>
       </div>
-      
+     <AuthFooter />
+      {/* Footer component for authentication pages */}
     </div>
   );
 };
 
 export default Register;
+
