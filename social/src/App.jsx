@@ -6,6 +6,7 @@ import './App.scss'; // Importing global styles
 // This file sets up the main application routes and imports global styles.
 // Importing React Router for routing functionality
 import React from "react";
+import Home from "./pages/Home/Home.jsx";
 // Importing the Login and Register components for user authentication
 
 
@@ -15,7 +16,8 @@ function App() {
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        {/* Add other routes as needed */}
+        <Route path="/" element={<Home />} />
+        {/* Default route redirects to Login page */}
       </Routes>
     </BrowserRouter>
   );
