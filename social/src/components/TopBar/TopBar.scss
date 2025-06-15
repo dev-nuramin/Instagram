@@ -1,95 +1,98 @@
-.topbar_container{
-    background-color: #fff;
-    border-bottom: 1px solid #e6e6e6;
+.topbar_container {
+  background-color: #fff;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  justify-content: center;
+  .topbar_wrapper {
+    width: 950px;
     display: flex;
-    justify-content: center;
-    .topbar_wrapper{
-        width: 950px;
+    align-items: center;
+    justify-content: space-between;
+    padding: 7px 0;
+    .logo {
+      img {
+        width: 110px;
+      }
+    }
+
+    .search_bar input[type="text"]::placeholder {
+      font-size: 16px; /* You can change this value */
+      font-weight: 500;
+    }
+    .search_bar {
+      width: 250px;
+      height: 35px;
+      border-radius: 4px;
+      background-color: #f0f2f5;
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      gap: 10px;
+
+      input {
+        width: 100%;
+        border: none;
+        background-color: transparent;
+        outline: none;
+        font-size: 14px;
+      }
+
+      button {
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+        color: #65676b;
+        font-size: 16px;
+        a {
+          color: #65676b;
+          text-decoration: none;
+        }
+      }
+    }
+    .icons_items {
+      display: flex;
+      align-items: center;
+      ul {
         display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 7px 0;
-        .logo{
-            img{
-                width: 110px;
-            }
-        }
-
-        .search_bar{
-            width: 250px;
-            height: 35px;
-            border-radius: 4px;
-            background-color: #f0f2f5;
-            display: flex;
-            align-items: center;
-            padding: 0 10px;
-            gap: 10px;
-            
-            input{
-                width: 100%;
-                border: none;
-                background-color: transparent;
-                outline: none;
-                font-size: 14px;
-                
-            }
-
-            button{
-                background-color: transparent;
-                border: none;
-                cursor: pointer;
-                color: #65676b;
-                font-size: 16px;
-                a{
-                    color: #65676b;
-                    text-decoration: none;
-                }
-            }
-        }
-        .icons_items{
+        margin: 0;
+        li {
+          list-style: none;
+          margin: 0 10px;
+          cursor: pointer;
+          position: relative;
           display: flex;
           align-items: center;
-          ul{
-            display: flex;
-            margin: 0;
-            li{
-                list-style: none;
-                margin: 0 10px;
-                cursor: pointer;
-                position: relative;
-                display: flex;
-                align-items: center;
-                .icon{
-                    font-size: 20px;
-                    color: #65676b;
-                    transition: color 0.3s ease;
-    
-                    &:hover{
-                    color: #1877f2;
-                    }
-                }
-    
-                .notification_count{
-                    position: absolute;
-                    top: -5px;
-                    right: -10px;
-                    background-color: #ff0000;
-                    color: #fff;
-                    border-radius: 50%;
-                    padding: 2px 6px;
-                    font-size: 12px;
-                }
-                a{
-                    color: #101010;
-                    img{
-                        width: 30px;
-                        height: 30px;
-                        border-radius: 50%;
-                        object-fit: cover;
-                    }
-                }
+          .icon {
+            font-size: 20px;
+            color: #65676b;
+            transition: color 0.3s ease;
+
+            &:hover {
+              color: #1877f2;
+            }
+          }
+
+          .notification_count {
+            position: absolute;
+            top: -5px;
+            right: -10px;
+            background-color: #ff0000;
+            color: #fff;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 12px;
+          }
+          a {
+            color: #101010;
+            img {
+              width: 30px;
+              height: 30px;
+              border-radius: 50%;
+              object-fit: cover;
             }
           }
         }
+      }
     }
+  }
 }
