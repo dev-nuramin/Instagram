@@ -61,6 +61,48 @@
             object-fit: cover;
           }
         }
+        .comment_box{
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          justify-content: space-between;
+          padding: 5px;
+          .icon_left{
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            a{
+              svg{
+                color: #000;
+              }
+              &:hover{
+                svg{
+                  color: #888;
+                }
+              }
+            }
+          }
+          .icon_right{
+            a{
+              svg{
+                color: #000;
+              }
+              &:hover{
+                svg{
+                  color: #888;
+                }
+              }
+            }
+            
+          }
+        }
+        .like_counts{
+          span{
+            color: #888;
+            font-size: 14px;
+            font-weight: 600;
+          }
+        }
       }
       .user_info {
         flex: 4;
