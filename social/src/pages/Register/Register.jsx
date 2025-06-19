@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiLogoFacebookSquare } from "react-icons/bi";
 import "./Register.scss"; // Importing styles specific to the Register component
 import { Link } from "react-router-dom";
@@ -6,6 +6,23 @@ import AuthFooter from "../../Components/AuthFooter/AuthFooter";
 
 // This component renders a registration form with fields for username and password, and a button to register.
 const Register = () => {
+  // state update for form fields
+  const [input, setInput] = useState({
+    fullName: "",
+    email: "",
+    username: "",
+    password: "",
+  });
+
+  // Function to handle input changes
+  const handleChange = (e) => {
+    setInput((prevInput) => ({
+      ...prevInput,
+      [e.target.name]: e.target.value, // Dynamically update the state based on input name
+    }));
+  };
+
+  console.log(input)
   return (
     <div className="register_container">
       <div className="register_wrapper">
@@ -32,18 +49,34 @@ const Register = () => {
           <input
             type="text"
             className="register_name"
-            placeholder="username phone or email"
+            placeholder="Mobile number or email"
+            value={input.email}
+            name="email"
+            onChange={handleChange} // Using handleChange to update state on input change
           />
           <input
             type="text"
             className="register_name"
             placeholder="Full Name"
+            value={input.fullName}
+            name="fullName"
+            onChange={handleChange}
           />
-          <input type="text" className="register_name" placeholder="Username" />
+          <input
+            type="text"
+            value={input.username}
+            name="username"
+            onChange={handleChange}
+            className="register_name"
+            placeholder="Username"
+          />
           <input
             type="password"
             className="register_password"
             placeholder="password"
+            value={input.password}
+            onChange={handleChange}
+            name="password"
           />
 
           <div className="terms_condition_text">
@@ -55,7 +88,8 @@ const Register = () => {
             </div>
             <div className="text_sec">
               <p>
-                By signing up, you agree to our <a href="#">Terms</a> , <a href="#">Privacy Policy</a> and
+                By signing up, you agree to our <a href="#">Terms</a> ,{" "}
+                <a href="#">Privacy Policy</a> and
                 <a href="#"> Cookies Policy</a> .
               </p>
             </div>
@@ -64,7 +98,7 @@ const Register = () => {
         </form>
       </div>
       <div className="signup_wrapper">
-        <span> 
+        <span>
           Have an account ? <Link to="/login">Log in</Link>
         </span>
       </div>
@@ -87,11 +121,10 @@ const Register = () => {
           </a>
         </div>
       </div>
-     <AuthFooter />
+      <AuthFooter />
       {/* Footer component for authentication pages */}
     </div>
   );
 };
 
 export default Register;
-
