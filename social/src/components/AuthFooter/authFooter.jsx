@@ -1,6 +1,9 @@
 import React from "react";
 import "./AuthFooter.scss"; // Importing styles specific to the AuthFooter component
 const AuthFooter = () => {
+
+  const currentYear = new Date().getFullYear();
+  // This component renders the footer section of the authentication page with links and a language selection dropdown.
   return (
     <>
       <div className="footer_sec">
@@ -53,7 +56,7 @@ const AuthFooter = () => {
             <option value="">Hindi</option>
             <option value="">Tamil</option>
           </select>
-          <span>© 2023 Instagram from Meta</span>
+          <span>© {currentYear} Instagram from Meta</span>
         </div>
       </div>
     </>

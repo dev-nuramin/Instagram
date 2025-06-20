@@ -5,7 +5,12 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      // required: true,
+      trim: true,
+    },
+    fullName: {
+      type: String,
+      // required: true,
       trim: true,
     },
     email: {
@@ -18,7 +23,7 @@ const userSchema = new Schema(
 
     age: {
       type: Number,
-      required: true,
+      // required: true,
       min: 12,
     },
 
@@ -27,7 +32,7 @@ const userSchema = new Schema(
     },
     username: {
       type: String,
-      required: true,
+      // required: true,
       unique: true,
       trim: true,
     },
@@ -43,7 +48,7 @@ const userSchema = new Schema(
 
     phone: {
       type: String,
-      required: true,
+      // required: true,
       unique: true,
       trim: true,
     },

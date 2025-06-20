@@ -6,7 +6,7 @@ import userRoutes from "./routes/userRoutes.js";
 import mongoDBconnect from "./config/db.js"
 import errorHandler from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser"
-
+import cors from "cors";
 // iitilize dotenv & express
 const app = express();
 dotenv.config();
@@ -16,6 +16,7 @@ dotenv.config();
 app.use(express.json());
 app.use(express.urlencoded({extended: false}));
 app.use(cookieParser())
+app.use(cors());
 
 //port connected from .env
 const PORT = process.env.SERVER_PORT || 5000;
