@@ -50,11 +50,19 @@ const Register = () => {
         });
         return;
       } else {
-      await axios.post("http://localhost:5150/api/users/register", input).then((res) => {
-          showToast("Registration successful!");
-          console.log(res.data);
-          // Redirect to login page or perform any other action
-        });
+        await axios
+          .post("http://localhost:5150/api/users/register", input)
+          .then((res) => {
+            console.log(res.data);
+            // Redirect to login page or perform any other action
+            setInput(() => ({
+              fullName: "",
+              email: "",
+              username: "",
+              password: "",
+            }));
+            showToast("Registration successful!");
+          });
       }
     } catch (error) {
       toast.error("Registration failed! Please try again., " + error.message);
