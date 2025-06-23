@@ -7,6 +7,8 @@ import './App.scss'; // Importing global styles
 // Importing React Router for routing functionality
 import React from "react";
 import Home from "./pages/Home/Home.jsx";
+import { AuthenticateUser } from "./middleware/AuthenticatUser.jsx";
+import { AuthreDirectUser } from "./middleware/AuthreDirectUser.jsx";
 // Importing the Login and Register components for user authentication
 
 
@@ -14,9 +16,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<AuthreDirectUser><Login /></AuthreDirectUser>} />
+        <Route path="/register" element={<AuthreDirectUser><Register /></AuthreDirectUser>} />
+        <Route path="/" element={<AuthenticateUser><Home /></AuthenticateUser>} />
         {/* Default route redirects to Login page */}
       </Routes>
     </BrowserRouter>

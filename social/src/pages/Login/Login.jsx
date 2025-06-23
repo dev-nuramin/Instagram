@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { BiLogoFacebookSquare } from "react-icons/bi";
 import "./Login.scss"; // Importing styles specific to the Login component
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,7 @@ import Swal from "sweetalert2";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import cookie from "js-cookie";
+import AuthContext from "../../context/AuthContext";
 // This component renders a login form with fields for username and password, and a button to log in.
 const Login = () => {
   // Function to handle form submission
@@ -15,8 +16,12 @@ const Login = () => {
     password: "",
   });
 
+
   // use navigate from react-router-dom if you want to redirect after login
   const navigate = useNavigate();
+
+  // use context to manage authentication state
+   const { dispatch } = useContext(AuthContext);
   const showAlert = (msg) => {
     Swal.fire(msg);
   };
@@ -57,6 +62,11 @@ const Login = () => {
           cookie.set("token", res.data.token, { expires: 7 }); // Set token in cookies for 7 days
           cookie.set("user", JSON.stringify(res.data.user), { expires: 7 }); // Set user data in cookies for 7 days
           // Redirect to home page or perform any other action
+
+          dispatch({
+            type: "LOGIN_USER",
+            payload: res.data
+          });
           navigate("/");
           showToast("Login successful!");
         });

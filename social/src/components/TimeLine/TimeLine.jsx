@@ -1,9 +1,28 @@
-import React from "react";
+import React, { useContext } from "react";
 import ProfilePic from "../../../assets/Images/profile.jpg"; // Import your profile picture
+import cookie from "js-cookie"; // Import cookie library for handling cookies
 import "./TimeLine.scss"; // Assuming you have a CSS file for styling
 // This component represents a timeline post card with user information and an image
 import { FaRegFaceLaugh } from "react-icons/fa6";
+import { useNavigate } from "react-router-dom";
+import AuthContext from "../../context/AuthContext";
 const TimeLine = () => {
+
+  const navigate = useNavigate(); // Hook from react-router-dom for navigation
+  // Function to handle logout
+
+  // call dispatch to update the auth state
+   const { dispatch } = useContext(AuthContext);
+  const handleLogout = (e) => {
+    e.preventDefault();
+    // Clear the user token from cookies
+    cookie.remove("token");
+    cookie.remove("user");
+    
+    dispatch({type: "LOGOUT_USER"}); // Dispatch logout action to update the auth state
+    navigate("/login"); // Redirect to the login page
+
+  }
   return (
     <>
       <div className="time_line">
@@ -185,7 +204,9 @@ const TimeLine = () => {
             <div className="username">
               <a href="#">Nur Amin</a>
               <span>Nuramin47</span>
+              
             </div>
+            <a href="#" onClick={handleLogout}>Logout</a>
           </div>
         </div>
       </div>
