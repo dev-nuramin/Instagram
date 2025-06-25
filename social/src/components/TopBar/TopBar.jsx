@@ -3,7 +3,10 @@ import { FiSearch } from "react-icons/fi";
 import "./TopBar.scss"; // Assuming you have a CSS file for styling
 // You can also use inline styles or CSS modules if preferred
 import ProfilePic from "../../../assets/Images/profile.jpg"; // Import your profile picture
+import { useContext } from "react";
+import AuthContext from "../../context/AuthContext";
 const TopBar = () => {
+  const {user} = useContext(AuthContext)
   return (
     <>
       <div className="topbar_container">
@@ -168,7 +171,7 @@ const TopBar = () => {
               </li>
               <li>
                 <a href="#">
-                  <img src={ProfilePic} alt="" />
+                  <img src={user.photo ? user.photo : `${ProfilePic}`} alt="" />
                 </a>
               </li>
             </ul>

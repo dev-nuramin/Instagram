@@ -17,12 +17,12 @@ const AuthContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AuthReducer, INITIAL_STATE);
 
   return (
-    <AuthContext.Provider 
-     value={{
-      token: state.token,
-      user: state.user,
-      dispatch
-     }}
+    <AuthContext.Provider
+      value={{
+        isUserLogin: state.isUserLogin,
+        user: state.user,
+        dispatch
+      }}
     >
       {children}
     </AuthContext.Provider>

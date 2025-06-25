@@ -12,7 +12,7 @@ const TimeLine = () => {
   // Function to handle logout
 
   // call dispatch to update the auth state
-   const { dispatch } = useContext(AuthContext);
+   const { dispatch, user } = useContext(AuthContext);
   const handleLogout = (e) => {
     e.preventDefault();
     // Clear the user token from cookies
@@ -200,10 +200,10 @@ const TimeLine = () => {
         </div>
         <div className="user_info">
           <div className="user_detailes">
-            <img src={ProfilePic} alt="" />
+            <img src={user.photo ? user.photo : `${ProfilePic}`} alt="" />
             <div className="username">
-              <a href="#">Nur Amin</a>
-              <span>Nuramin47</span>
+              <a href="#">{user.fullName}</a>
+              <span>{user.username}</span>
               
             </div>
             <a href="#" onClick={handleLogout}>Logout</a>

@@ -2,18 +2,18 @@
 export const AuthReducer = (state, {type, payload}) => {
 
     switch (type) {
-        case 'LOGIN_USER':
+        case 'LOGIN_USER_SUCCESS':
             return {
                 ...state,
-                token: payload.token,
-                user: payload.user,
+                isUserLogin: true,
+                user: payload,
             };
 
         case 'LOGOUT_USER':
             return {
                 ...state,
-                token: null,
-                user: null,
+                isUserLogin: false,
+                user: { },
             };
 
         default:

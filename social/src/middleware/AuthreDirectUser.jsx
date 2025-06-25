@@ -4,8 +4,8 @@ import { Navigate, } from "react-router-dom";
 
 export const AuthreDirectUser = ({children}) => {
 
-    const {token } = useContext(AuthContext);
+    const {isUserLogin } = useContext(AuthContext);
 
-    return token ? <Navigate to="/" replace={true} /> : children;
+    return isUserLogin ? <Navigate to="/" replace={true} /> : children;
 
 }

@@ -8,6 +8,7 @@ import {
   getSingleUser,
   updateUser,
   patchUser,
+  measUser
 } from "../controllers/userControllers.js";
 import { userLogin } from "../controllers/userLogin/userLogin.js";
 import { userRegister } from "../controllers/userLogin/userRegister.js";
@@ -18,6 +19,13 @@ import adminMiddleware from "../middlewares/adminMiddleware.js";
 
 const router = express.Router();
 
+
+ // user login and registaer route
+  router.route('/login').post(userLogin)
+  router.route('/register').post(userRegister)
+  router.route('/me').get(measUser)
+
+
 router.route("/").get(adminMiddleware, getAllUsers).post(authMiddleware, createUser);
 router
   .route("/:id")
@@ -27,8 +35,5 @@ router
   .patch(userMiddleware, patchUser);
 
 
-  // user login and registaer route
-  router.route('/login').post(userLogin)
-  router.route('/register').post(userRegister)
-
+ 
 export default router;

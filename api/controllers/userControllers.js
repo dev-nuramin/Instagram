@@ -10,7 +10,8 @@
 // Import necessary modules
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import createError from '../controllers/createError.js'
+import createError from "../controllers/createError.js";
+import jwt from "jsonwebtoken";
 /**
  * @function getAllUser
  * @description Retrieves all user records from the database.
@@ -141,6 +142,38 @@ export const patchUser = async (req, res, next) => {
       status: "success",
       user,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @function getMe
+ * @description login secure specify user from database
+ * @Methood get
+ * @route /api/user/me
+ */
+export const measUser = async (req, res, next) => {
+  const bearer_token = req.headers.authorization;
+  let token = "";
+  try {
+    if (bearer_token) {
+      token = bearer_token.split(" ")[1];
+    }
+
+    // verify token
+    const logged_in_user = jwt.verify(token, process.env.JWT_SECRET);
+
+    // check user
+    if (!logged_in_user) {
+      next(createError(400, "token not valid"));
+    }
+
+    // final
+    if (logged_in_user) {
+      const user = await User.findById(logged_in_user.id);
+      res.status(200).json(user);
+    }
   } catch (error) {
     next(error);
   }

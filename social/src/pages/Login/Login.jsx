@@ -16,12 +16,11 @@ const Login = () => {
     password: "",
   });
 
-
   // use navigate from react-router-dom if you want to redirect after login
   const navigate = useNavigate();
 
   // use context to manage authentication state
-   const { dispatch } = useContext(AuthContext);
+  const { dispatch } = useContext(AuthContext);
   const showAlert = (msg) => {
     Swal.fire(msg);
   };
@@ -52,20 +51,19 @@ const Login = () => {
         return;
       }
 
-    await axios
+      await axios
         .post("http://localhost:5150/api/users/login", {
           email: input.auth,
           password: input.password,
         })
         .then((res) => {
-         
           cookie.set("token", res.data.token, { expires: 7 }); // Set token in cookies for 7 days
-          cookie.set("user", JSON.stringify(res.data.user), { expires: 7 }); // Set user data in cookies for 7 days
+        
           // Redirect to home page or perform any other action
-
+ 
           dispatch({
-            type: "LOGIN_USER",
-            payload: res.data
+            type: "LOGIN_USER_SUCCESS",
+            payload: res.data.user,
           });
           navigate("/");
           showToast("Login successful!");
