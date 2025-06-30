@@ -36,6 +36,10 @@ const userSchema = new Schema(
       unique: true,
       trim: true,
     },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
     isAdmin: {
       type: Boolean,
       default: false,

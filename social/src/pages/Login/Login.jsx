@@ -3,11 +3,13 @@ import { BiLogoFacebookSquare } from "react-icons/bi";
 import "./Login.scss"; // Importing styles specific to the Login component
 import { Link, useNavigate } from "react-router-dom";
 import AuthFooter from "../../Components/AuthFooter/AuthFooter";
-import Swal from "sweetalert2";
-import { ToastContainer, toast } from "react-toastify";
+
 import axios from "axios";
 import cookie from "js-cookie";
 import AuthContext from "../../context/AuthContext";
+import LoaderContext from "../../context/LoaderContext";
+import { showAlert } from "../../utility/sweetAlert";
+import { showToast } from "../../utility/toast";
 // This component renders a login form with fields for username and password, and a button to log in.
 const Login = () => {
   // Function to handle form submission
@@ -16,18 +18,15 @@ const Login = () => {
     password: "",
   });
 
+  // recall loader from loaderContext
+
+  const { loaderDispatch } = useContext(LoaderContext);
+
   // use navigate from react-router-dom if you want to redirect after login
   const navigate = useNavigate();
 
   // use context to manage authentication state
   const { dispatch } = useContext(AuthContext);
-  const showAlert = (msg) => {
-    Swal.fire(msg);
-  };
-  // create toast function
-  const showToast = (msg) => {
-    toast(msg);
-  };
 
   // Function to handle input changes
   const handleInputChange = (e) => {
@@ -57,16 +56,18 @@ const Login = () => {
           password: input.password,
         })
         .then((res) => {
-          cookie.set("token", res.data.token, { expires: 7 }); // Set token in cookies for 7 days
-        
-          // Redirect to home page or perform any other action
- 
-          dispatch({
-            type: "LOGIN_USER_SUCCESS",
-            payload: res.data.user,
-          });
-          navigate("/");
-          showToast("Login successful!");
+          if (res.data.user.isVerified) {
+            cookie.set("token", res.data.token, { expires: 7 }); // Set token in cookies for 7 days
+            // Redirect to home page or perform any other action
+            dispatch({
+              type: "LOGIN_USER_SUCCESS",
+              payload: res.data.user,
+            });
+            navigate("/");
+            loaderDispatch({ type: "LOADING_START" });
+          }else{
+            showToast('Verify your account')
+          }
         });
     } catch (error) {
       console.error("Login error:", error);
@@ -81,7 +82,6 @@ const Login = () => {
   return (
     <>
       <div className="login_container">
-        <ToastContainer />
         <div className="login_wrapper">
           <a href="#" className="login_logo_link">
             <img

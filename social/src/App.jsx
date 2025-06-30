@@ -14,14 +14,20 @@ import Cookie from "js-cookie";
 import axios from "axios";
 import { useContext } from "react";
 import AuthContext from "./context/AuthContext.js";
-import { useState } from "react";
+import Swal from "sweetalert2";
+import LoaderContext from "./context/LoaderContext.js";
+import { ToastContainer } from "react-toastify";
 // Importing the Login and Register components for user authentication
 
 function App() {
   const token = Cookie.get("token");
   const { dispatch } = useContext(AuthContext);
-  console.log(token);
 
+  const { loaderState, loaderDispatch } = useContext(LoaderContext);
+
+  const showAlert = (msg) => {
+    Swal.fire(msg);
+  };
   useEffect(() => {
     try {
       axios
@@ -31,7 +37,12 @@ function App() {
           },
         })
         .then((res) => {
-          dispatch({ type: "LOGIN_USER_SUCCESS", payload: res.data });
+          if (res.data.isVerified && token) {
+            dispatch({ type: "LOGIN_USER_SUCCESS", payload: res.data });
+          } else {
+            showAlert("Please verify your account");
+            Cookie.remove("token");
+          }
         })
         .catch(() => {
           dispatch({ type: "LOGOUT_USER" });
@@ -39,16 +50,16 @@ function App() {
     } catch (error) {
       console.log(error);
     }
-  }, [token]);
+  }, [token, dispatch]);
 
-  const [progress, setProgress] = useState(0);
   return (
     <BrowserRouter>
       <LoadingBar
         color="#f11946"
-        progress={progress}
-        onLoaderFinished={() => setProgress(0)}
+        progress={loaderState}
+        onLoaderFinished={() => loaderDispatch({ type: "LOADING_END" })}
       />
+      <ToastContainer />
       <Routes>
         <Route
           path="/login"

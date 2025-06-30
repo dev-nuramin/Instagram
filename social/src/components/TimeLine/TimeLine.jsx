@@ -6,10 +6,13 @@ import "./TimeLine.scss"; // Assuming you have a CSS file for styling
 import { FaRegFaceLaugh } from "react-icons/fa6";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/AuthContext";
+import LoaderContext from "../../context/LoaderContext";
 const TimeLine = () => {
 
   const navigate = useNavigate(); // Hook from react-router-dom for navigation
   // Function to handle logout
+ const {loaderDispatch} = useContext(LoaderContext)
+
 
   // call dispatch to update the auth state
    const { dispatch, user } = useContext(AuthContext);
@@ -21,6 +24,7 @@ const TimeLine = () => {
     
     dispatch({type: "LOGOUT_USER"}); // Dispatch logout action to update the auth state
     navigate("/login"); // Redirect to the login page
+    loaderDispatch({type: "LOADING_START"})
 
   }
   return (
@@ -34,7 +38,7 @@ const TimeLine = () => {
               </a>
               <div className="post_user_left_info">
                 <a className="name" href="#">
-                  Nur Amin
+                 {user.fullName}
                 </a>
                 <span className="location">Dhaka</span>
               </div>
