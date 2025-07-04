@@ -1,7 +1,9 @@
 import User from "../../models/User.js";
+import Token from "../../models/Token.js";
 import bcrypt from "bcryptjs";
 import createError from "../createError.js";
 import sendEmail from "../../utils/sendEmail.js";
+import { createToken } from "../../utils/createToken.js";
 /**
  * User registration controller
  * @param {Object} req - Express request object
@@ -32,17 +34,22 @@ export const userRegister = async (req, res, next) => {
       password: hashedPassword,
     });
 
-   
     // Save the user to the database
     const savedUser = await newUser.save();
 
-     const user = savedUser;
+    const user = savedUser;
+
+    // create user token before registration
+    const token = createToken({ id: user._id });
+   
+    // create user schema token
+
+    await Token.create({userId: user._id, token: token})
+    //verify link create
+    const verify_link = `http://localhost:3000/user/${user._id}/verify/${token}`;
+
     // send email
-    sendEmail(
-      user.email,
-      "Instagram",
-      `<span>Hi ${user.fullName} you are welcome to instagram</span>`
-    );
+    await sendEmail(user.email, "verify account", verify_link);
 
     console.log(user);
     res.status(201).json({
@@ -50,6 +57,6 @@ export const userRegister = async (req, res, next) => {
       user: user,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };

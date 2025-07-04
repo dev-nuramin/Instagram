@@ -17,6 +17,7 @@ import AuthContext from "./context/AuthContext.js";
 import Swal from "sweetalert2";
 import LoaderContext from "./context/LoaderContext.js";
 import { ToastContainer } from "react-toastify";
+import Verify from "./pages/Verify/Verify.jsx";
 // Importing the Login and Register components for user authentication
 
 function App() {
@@ -83,6 +84,12 @@ function App() {
             <AuthenticateUser>
               <Home />
             </AuthenticateUser>
+          }
+        />
+        <Route
+          path="/user/:id/verify/:token"
+          element={
+            <Verify />
           }
         />
         {/* Default route redirects to Login page */}
