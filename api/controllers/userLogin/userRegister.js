@@ -41,7 +41,7 @@ export const userRegister = async (req, res, next) => {
 
     // create user token before registration
     const token = createToken({ id: user._id });
-   
+
     // create user schema token
 
     await Token.create({userId: user._id, token: token})
@@ -51,7 +51,7 @@ export const userRegister = async (req, res, next) => {
     // send email
     await sendEmail(user.email, "verify account", verify_link);
 
-    console.log(user);
+  
     res.status(201).json({
       message: "User registered successfully",
       user: user,

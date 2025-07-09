@@ -7,7 +7,9 @@ import mongoDBconnect from "./config/db.js"
 import errorHandler from "./middlewares/errorHandler.js";
 import cookieParser from "cookie-parser"
 import cors from "cors";
-// iitilize dotenv & express
+
+
+// utilize dotenv & express
 const app = express();
 dotenv.config();
 
