@@ -12,6 +12,9 @@ import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import createError from "../controllers/createError.js";
 import jwt from "jsonwebtoken";
+import { createToken } from "../utils/createToken.js";
+import Token from "../models/Token.js";
+import sendEmail from "../utils/sendEmail.js";
 /**
  * @function getAllUser
  * @description Retrieves all user records from the database.
@@ -173,6 +176,68 @@ export const measUser = async (req, res, next) => {
     if (logged_in_user) {
       const user = await User.findById(logged_in_user.id);
       res.status(200).json(user);
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+/**
+ * @function passwordRecover
+ * @description Handles password recovery by sending a reset link to the user's email.
+ * @Methood POST
+ * @route /api/user/password-recover
+ * @param {Object} req - The request object containing the user's email.
+ * @param {Object} res - The response object to send the result.
+ *
+ */
+
+export const passwordRecover = async (req, res, next) => {
+  const { email } = req.body;
+  try {
+    // Check if the user exists
+    const user = await User.findOne({ email });
+
+    console.log("User found:", user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the user is verified
+    // If the user is not verified, return an error message
+    if (!user.isVerified) {
+      return res
+        .status(400)
+        .json({ message: "Please verify your account first" });
+    }
+
+    // Create a token for password recovery
+    // Generate a token with a 1-hour expiration time
+    if (user) {
+      const token = createToken({ id: user._id });
+      // Create a recovery URL with the token
+      // This URL will be used to reset the password
+      const recovery_url = `http://localhost:3000/password-recover/${token}`;
+
+      await Token.deleteMany({ userId: user._id }); // Delete any existing tokens for the user  
+
+      // Create a new token entry in the database
+      await Token.create({
+        userId: user._id,
+        token: token,
+      });
+
+      // Send the recovery email to the user
+      // This function sends an email to the user with the recovery link
+      sendEmail({
+        to: user.email,
+        subject: "Password Recovery",
+        text: `Click the link to reset your password: ${recovery_url}`,
+      });
+
+      res
+        .status(200)
+        .json({ message: "Password reset link sent to your email" });
     }
   } catch (error) {
     next(error);

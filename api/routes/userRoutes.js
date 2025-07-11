@@ -8,7 +8,8 @@ import {
   getSingleUser,
   updateUser,
   patchUser,
-  measUser
+  measUser,
+  passwordRecover
 } from "../controllers/userControllers.js";
 import { userLogin } from "../controllers/userLogin/userLogin.js";
 import { userRegister } from "../controllers/userLogin/userRegister.js";
@@ -27,6 +28,7 @@ const router = express.Router();
   router.route('/register').post(userRegister)
   router.route('/me').get(measUser)
   router.route('/verify').post(verifyAccount)
+  router.route('/password-recover').post(passwordRecover)
 
 
 router.route("/").get(adminMiddleware, getAllUsers).post(authMiddleware, createUser);

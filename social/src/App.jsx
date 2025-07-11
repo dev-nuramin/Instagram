@@ -18,6 +18,7 @@ import Swal from "sweetalert2";
 import LoaderContext from "./context/LoaderContext.js";
 import { ToastContainer } from "react-toastify";
 import Verify from "./pages/Verify/Verify.jsx";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword.jsx";
 // Importing the Login and Register components for user authentication
 
 function App() {
@@ -91,6 +92,10 @@ function App() {
           element={
             <Verify />
           }
+        />
+        <Route 
+          path="/forgot-password"
+          element={<ForgotPassword />}
         />
         {/* Default route redirects to Login page */}
       </Routes>

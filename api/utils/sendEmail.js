@@ -2,11 +2,12 @@ import nodemailer from "nodemailer";
 
 const sendEmail = async (to, subject, text) => {
   const transport = nodemailer.createTransport({
-    host: "sandbox.smtp.mailtrap.io",
-    port: 2525,
+    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
     auth: {
-      user: "70f57a19a79093",
-      pass: "ff4db0de10e09e",
+      user: "nil.somudra51@gmail.com",
+      pass: "qpjookphsxcgiwxj",
     },
   });
 
