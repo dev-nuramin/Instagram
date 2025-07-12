@@ -19,6 +19,7 @@ import LoaderContext from "./context/LoaderContext.js";
 import { ToastContainer } from "react-toastify";
 import Verify from "./pages/Verify/Verify.jsx";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword.jsx";
+import ResetPassword from "./pages/ResetPassword/ResetPassword.jsx";
 // Importing the Login and Register components for user authentication
 
 function App() {
@@ -98,7 +99,15 @@ function App() {
           element={<ForgotPassword />}
         />
         {/* Default route redirects to Login page */}
+
+        <Route
+          path="/password-recover/:token"    
+          element={
+            <ResetPassword />
+          }
+        />
       </Routes>
+        
     </BrowserRouter>
   );
 }

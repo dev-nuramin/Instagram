@@ -15,6 +15,7 @@ import jwt from "jsonwebtoken";
 import { createToken } from "../utils/createToken.js";
 import Token from "../models/Token.js";
 import sendEmail from "../utils/sendEmail.js";
+import hashPassword from "../utils/hashPassword.js";
 /**
  * @function getAllUser
  * @description Retrieves all user records from the database.
@@ -195,10 +196,12 @@ export const measUser = async (req, res, next) => {
 export const passwordRecover = async (req, res, next) => {
   const { email } = req.body;
   try {
+    if (email === null || email === undefined || email === "") {
+      return res.status(400).json({ message: "Email is required" });
+    }
     // Check if the user exists
     const user = await User.findOne({ email });
 
-    console.log("User found:", user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -212,14 +215,15 @@ export const passwordRecover = async (req, res, next) => {
     }
 
     // Create a token for password recovery
-    // Generate a token with a 1-hour expiration time
+
     if (user) {
       const token = createToken({ id: user._id });
       // Create a recovery URL with the token
       // This URL will be used to reset the password
       const recovery_url = `http://localhost:3000/password-recover/${token}`;
 
-      await Token.deleteMany({ userId: user._id }); // Delete any existing tokens for the user  
+      console.log("Recovery URL:", recovery_url);
+      await Token.deleteMany({ userId: user._id }); // Delete any existing tokens for the user
 
       // Create a new token entry in the database
       await Token.create({
@@ -229,7 +233,7 @@ export const passwordRecover = async (req, res, next) => {
 
       // Send the recovery email to the user
       // This function sends an email to the user with the recovery link
-      sendEmail({
+      await sendEmail({
         to: user.email,
         subject: "Password Recovery",
         text: `Click the link to reset your password: ${recovery_url}`,
@@ -241,5 +245,59 @@ export const passwordRecover = async (req, res, next) => {
     }
   } catch (error) {
     next(error);
+  }
+};
+
+/**
+ * @function passwordReset
+ * @description Handles password reset by updating the user's password.
+ * @Methood POST
+ * @route /api/user/reset-password
+ * @param {Object} req - The request object containing the user's new password and token.
+ * @param {Object} res - The response object to send the result.
+ *
+ */
+
+export const passwordReset = async (req, res, next) => {
+  try {
+    // Extract token and password from the request body
+    const { token, password } = req.body;
+
+    const user_details = jwt.verify(token, process.env.JWT_SECRET);
+
+    if (!user_details) {
+      return res.status(400).json({ message: "Invalid token" });
+    }
+
+    // Find the user by ID
+    const user = await User.findById(user_details.id);
+
+    // Check if the user exists
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+
+    // Check if the token is valid
+    const tokenEntry = await Token.findOne({ userId: user._id, token });
+    if (!tokenEntry) {
+      return res.status(400).json({ message: "Invalid or expired token" });
+    }
+
+    // Hash the new password
+    // const salt = await bcrypt.genSalt(10);
+    // const hash_pass = await bcrypt.hash(password, salt);
+
+    const hash_password = await hashPassword(password);
+    // Update the user's password
+    user.password = hash_password;
+    await user.save();
+
+    // Delete the token entry after successful password reset
+    await Token.deleteOne({ userId: user._id, token });
+
+    res.status(200).json({ message: "Password reset successfully" });
+  } catch (error) {
+    res.send(error);
   }
 };

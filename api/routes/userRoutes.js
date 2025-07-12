@@ -9,7 +9,8 @@ import {
   updateUser,
   patchUser,
   measUser,
-  passwordRecover
+  passwordRecover,
+  passwordReset
 } from "../controllers/userControllers.js";
 import { userLogin } from "../controllers/userLogin/userLogin.js";
 import { userRegister } from "../controllers/userLogin/userRegister.js";
@@ -29,6 +30,7 @@ const router = express.Router();
   router.route('/me').get(measUser)
   router.route('/verify').post(verifyAccount)
   router.route('/password-recover').post(passwordRecover)
+  router.route('/reset-password').post(passwordReset)
 
 
 router.route("/").get(adminMiddleware, getAllUsers).post(authMiddleware, createUser);

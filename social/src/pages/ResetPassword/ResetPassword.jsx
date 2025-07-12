@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState } from "react";
 
-const ForgotPassword = () => {
+const ResetPassword = () => {
   // State to manage the email input
   // This will hold the email entered by the user for password recovery
   const [email, setEmail] = React.useState("");
@@ -81,7 +81,7 @@ const ForgotPassword = () => {
                     />
                   </a>
                   <div className="card-header">
-                    <h5 className="card-title">Forgot Password ?</h5>
+                    <h5 className="card-title">Reset Your Password !</h5>
                   </div>
                   {msg.status && (
                     <p className={`alert alert-${msg.type}`}>{msg.msg}</p>
@@ -89,20 +89,30 @@ const ForgotPassword = () => {
                   <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                       <label htmlFor="email" className="form-label">
-                        Email address
+                        Set Password
                       </label>
                       <input
-                        type="email"
+                        type="password"
                         className="form-control"
                         id="email"
-                        placeholder="Enter your email"
-                        name="email"
+                        placeholder="New Password"
+                        name="password"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                      />
+                      <br />
+                      <input
+                        type="password"
+                        className="form-control"
+                        id="email"
+                        placeholder="Confirm New Password"
+                        name="password"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                       />
                     </div>
                     <button type="submit" className="btn btn-primary">
-                      Send Reset Link
+                      Set new Password
                     </button>
                   </form>
                 </div>
@@ -115,4 +125,4 @@ const ForgotPassword = () => {
   );
 };
 
-export default ForgotPassword;
+export default ResetPassword;
