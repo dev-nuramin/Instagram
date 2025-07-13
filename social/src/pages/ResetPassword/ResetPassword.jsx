@@ -1,11 +1,25 @@
 import React from "react";
 import axios from "axios";
 import { useState } from "react";
-
+import { useParams, useNavigate } from "react-router-dom";
 const ResetPassword = () => {
   // State to manage the email input
   // This will hold the email entered by the user for password recovery
-  const [email, setEmail] = React.useState("");
+  const [input, setInput] = React.useState({
+    password: "",
+    confirmPassword: "",
+  });
+
+  const {token} = useParams();
+  const navigate = useNavigate();
+  // Function to handle input changes
+  // This updates the state with the current value of the input fields
+  const handleChange = (e) => {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   // State to manage messages for user feedback
   // This will show success or error messages based on the API response
@@ -17,52 +31,46 @@ const ResetPassword = () => {
 
   // Handle form submission
   // This function sends a POST request to the server with the email for password recovery
-  const handleSubmit = async (e) => {
+  const handleResetPassword = async (e) => {
     e.preventDefault();
-    if (!email) {
+    if (input.password !== input.confirmPassword) {
       setMsg({
         type: "danger",
-        msg: "Email is required",
+        msg: "Passwords do not match",
         status: true,
       });
-      await axios
-        .post("http://localhost:5150/api/users/password-recover", { email })
-        .then((response) => {
-          setMsg({
-            type: "success",
-            msg: response.data.message,
-            status: true,
-          });
-          setEmail("");
-        })
-        .catch((error) => {
-          setMsg({
-            type: "danger",
-            msg: error.response.data.message,
-            status: true,
-          });
-        });
       return;
-    }
-    // If email is provided, send the recovery request
-    // This will trigger the password recovery process on the server
-    await axios
-      .post("http://localhost:5150/api/users/password-recover", { email })
-      .then((response) => {
+    } else if (input.password.length < 6) {
+      setMsg({
+        type: "danger",
+        msg: "Password must be at least 6 characters long",
+        status: true,
+      });
+    } else {
+      try {
+        const response = await axios.post(
+          "http://localhost:5150/api/users/reset-password",
+          {
+            token: token,
+            password: input.password,
+          },
+          
+        );
+
         setMsg({
           type: "success",
           msg: response.data.message,
           status: true,
         });
-        setEmail("");
-      })
-      .catch((error) => {
+        navigate('/login')
+      } catch (error) {
         setMsg({
           type: "danger",
-          msg: error.response.data.message,
+          msg: error.response.data.message || "An error occurred",
           status: true,
         });
-      });
+      }
+    }
   };
 
   return (
@@ -73,7 +81,10 @@ const ResetPassword = () => {
             <div className="my-3">
               <div className="card shadow">
                 <div className="card-body">
-                  <a href="#" className="register_logo_link d-flex justify-content-center my-2">
+                  <a
+                    href="#"
+                    className="register_logo_link d-flex justify-content-center my-2"
+                  >
                     <img
                       src="https://i.ibb.co/rKF8Q2mk/insta-removebg-preview.png"
                       alt="insta-removebg-preview"
@@ -86,7 +97,7 @@ const ResetPassword = () => {
                   {msg.status && (
                     <p className={`alert alert-${msg.type}`}>{msg.msg}</p>
                   )}
-                  <form onSubmit={handleSubmit}>
+                  <form onSubmit={handleResetPassword}>
                     <div className="mb-3">
                       <label htmlFor="email" className="form-label">
                         Set Password
@@ -97,8 +108,8 @@ const ResetPassword = () => {
                         id="email"
                         placeholder="New Password"
                         name="password"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        value={input.password}
+                        onChange={handleChange}
                       />
                       <br />
                       <input
@@ -106,9 +117,9 @@ const ResetPassword = () => {
                         className="form-control"
                         id="email"
                         placeholder="Confirm New Password"
-                        name="password"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
+                        name="confirmPassword"
+                        value={input.confirmPassword}
+                        onChange={handleChange}
                       />
                     </div>
                     <button type="submit" className="btn btn-primary">

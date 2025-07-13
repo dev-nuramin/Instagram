@@ -14,7 +14,7 @@ import createError from "../controllers/createError.js";
 import jwt from "jsonwebtoken";
 import { createToken } from "../utils/createToken.js";
 import Token from "../models/Token.js";
-import sendEmail from "../utils/sendEmail.js";
+import  { resendEmail } from "../utils/sendEmail.js";
 import hashPassword from "../utils/hashPassword.js";
 /**
  * @function getAllUser
@@ -233,7 +233,7 @@ export const passwordRecover = async (req, res, next) => {
 
       // Send the recovery email to the user
       // This function sends an email to the user with the recovery link
-      await sendEmail({
+      await resendEmail({
         to: user.email,
         subject: "Password Recovery",
         text: `Click the link to reset your password: ${recovery_url}`,
@@ -263,8 +263,10 @@ export const passwordReset = async (req, res, next) => {
     // Extract token and password from the request body
     const { token, password } = req.body;
 
+
     const user_details = jwt.verify(token, process.env.JWT_SECRET);
 
+    // Check if user_details is valid
     if (!user_details) {
       return res.status(400).json({ message: "Invalid token" });
     }
@@ -277,14 +279,14 @@ export const passwordReset = async (req, res, next) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-
+   
     // Check if the token is valid
-    const tokenEntry = await Token.findOne({ userId: user._id, token });
+    const tokenEntry = await Token.findOne({ userId: user._id, token },);
     if (!tokenEntry) {
       return res.status(400).json({ message: "Invalid or expired token" });
     }
 
-    // Hash the new password
+    // Hash the new password  
     // const salt = await bcrypt.genSalt(10);
     // const hash_pass = await bcrypt.hash(password, salt);
 
@@ -298,6 +300,6 @@ export const passwordReset = async (req, res, next) => {
 
     res.status(200).json({ message: "Password reset successfully" });
   } catch (error) {
-    res.send(error);
+    next(error);
   }
 };
